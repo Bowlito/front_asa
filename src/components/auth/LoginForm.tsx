@@ -4,17 +4,23 @@ import { useState } from "react";
 import FormInput from "../form/FormInput";
 import FormButton from "../form/FormButton";
 import api from "../../api/api.ts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 interface LoginFormData {
-
     email: string;
     password: string;
 }
 
 export default function LoginForm() {
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormData>();
     const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
     const onLogin = async (data: LoginFormData) => {
         setError("");
@@ -23,6 +29,9 @@ export default function LoginForm() {
             const res = await api.post("/auth/login", data);
             localStorage.setItem("token", res.data.token);
             console.log("Connexion réussie !");
+            console.log(res.data);
+            enqueueSnackbar("Connexion réussie", { variant: "success" });
+            navigate("/");
         } catch (err: any) {
             setError(err.response?.data?.message || "Erreur serveur");
         }
@@ -35,7 +44,6 @@ export default function LoginForm() {
             </Typography>
 
             <form onSubmit={handleSubmit(onLogin)}>
-
                 <FormInput
                     register={register}
                     name="email"
