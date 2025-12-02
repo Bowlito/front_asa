@@ -6,7 +6,7 @@ export default function Footer() {
         <Box
             component="footer"
             sx={{
-                width: "100vw",        // prend toute la largeur de la fenêtre
+                width: "98vw",        // prend toute la largeur de la fenêtre
                 p: 2,
                 bgcolor: "background.paper",
                 textAlign: "center",

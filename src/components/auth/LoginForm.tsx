@@ -4,8 +4,10 @@ import { useState } from "react";
 import FormInput from "../form/FormInput";
 import FormButton from "../form/FormButton";
 import api from "../../api/api.ts";
+import { Link } from "react-router-dom";
 
 interface LoginFormData {
+
     email: string;
     password: string;
 }
@@ -28,11 +30,12 @@ export default function LoginForm() {
 
     return (
         <Box>
-            <Typography variant="h6" mb={2} textAlign="center">
+            <Typography variant="h5" mb={2} textAlign="center">
                 Connexion
             </Typography>
 
             <form onSubmit={handleSubmit(onLogin)}>
+
                 <FormInput
                     register={register}
                     name="email"
@@ -57,6 +60,10 @@ export default function LoginForm() {
                     </Typography>
                 )}
             </form>
+            <Typography variant="body1" textAlign={"center"} mt={2}>
+                Pas encore de compte?
+                <Link to={"/register"}> S'inscrire </Link>
+            </Typography>
         </Box>
     );
 }
