@@ -12,7 +12,9 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
     { label: 'Home', to: '/' },
+    { label: 'Connexion', to: '/login' },
     { label: 'Dashboard', to: '/dashboard' },
+    { label: 'Liste des membres', to: '/users' },
     // ajoute d'autres pages ici si besoin
 ];
 

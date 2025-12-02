@@ -6,7 +6,7 @@ export default function Dashboard() {
         <>
             <Typography variant="h4">Dashboard</Typography>
             <Typography variant="body1">
-                Contenu du dashboard centré et responsive.
+                Contenu du dashboard à implémenter.
             </Typography>
         </>
     );
