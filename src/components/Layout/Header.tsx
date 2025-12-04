@@ -1,47 +1,96 @@
 // components/Layout/Header.tsx
-import { AppBar, Toolbar, Typography, IconButton } from "@mui/material";
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    IconButton,
+    Box,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
-
+import { useGlobalContext } from "../../context/GlobalContext";
 
 interface HeaderProps {
     onMenuClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Header({ onMenuClick }: HeaderProps) {
+    const { user, setUser, isConnected, setIsConnected } = useGlobalContext();
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (onMenuClick) onMenuClick(event);
-        // retire le focus pour supprimer le halo noir
         (event.currentTarget as HTMLButtonElement).blur();
     };
 
+    function logout() {
+        localStorage.removeItem("token");
+        setUser(null);
+        setIsConnected(false);
+    }
+
     return (
+        <AppBar position="fixed" sx={{ zIndex: (t) => t.zIndex.drawer + 1, }}>
+            <Toolbar sx={{ position: "relative" }}>
+                {/* ========== GAUCHE ========== */}
+                <IconButton
+                    color="inherit"
+                    edge="start"
+                    onClick={handleClick}
+                    sx={{
+                        position: "absolute",
+                        left: 16,
+                        "&.Mui-focusVisible": {
+                            outline: "none",
+                            boxShadow: "none",
+                        },
+                    }}
+                >
+                    <MenuIcon />
+                </IconButton>
 
-            <AppBar position="fixed" sx={{  zIndex: (t) => t.zIndex.drawer + 1 }}>
-                <Toolbar sx={{display: "flex", justifyContent:"flex-start" }}>
-                    <IconButton
-                        color="inherit"
-                        edge="start"
-                        onClick={handleClick}
-                        sx={{
-                            mr: 2,
-                            "&.Mui-focusVisible": {
-                                outline: "none",
-                                boxShadow: "none",
-                            },
-
+                {/* ========== CENTRE (TOUJOURS PARFAITEMENT CENTRÉ) ========== */}
+                <Typography
+                    variant="h6"
+                    noWrap
+                    sx={{
+                        position: "absolute",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                    }}
+                >
+                    <Link
+                        to="/"
+                        style={{
+                            color: "white",
+                            textDecoration: "none",
                         }}
                     >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap >
+                        My App
+                    </Link>
+                </Typography>
 
-                        <Link to={"/"} style={{color: "white"}}> My App </Link>
+                {/* ========== DROITE ========== */}
+                {isConnected && (
+                    <Box
+                        sx={{
+                            position: "absolute",
+                            right: 16,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                        }}
+                    >
+                        <Typography>
+                            {user ? `${user.firstname} ${user.lastname}` : "Invité"}
+                        </Typography>
 
-                    </Typography>
-
-                </Toolbar>
-            </AppBar>
-
+                        <IconButton onClick={logout}>
+                            <LogoutIcon sx={{ color: "white" }} />
+                        </IconButton>
+                    </Box>
+                )}
+            </Toolbar>
+        </AppBar>
     );
 }

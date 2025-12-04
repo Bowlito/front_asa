@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import FormInput from "../form/FormInput";
-import FormButton from "../form/FormButton";
+import FormInput from "../formComponents/FormInput.tsx";
+import FormButton from "../formComponents/FormButton.tsx";
 import api from "../../api/api.ts";
 import { Link, useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useGlobalContext } from "../../context/GlobalContext.tsx";
+import type { UserType } from "../../types/UserType.ts";
 
 interface LoginFormData {
     email: string;
@@ -21,20 +23,24 @@ export default function LoginForm() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
+    const { setUser, setIsConnected } = useGlobalContext();
 
-    const onLogin = async (data: LoginFormData) => {
-        setError("");
+    const onLogin = (data: LoginFormData) => {
+        api.post("/auth/login", data)
+            .then((res) => {
+                localStorage.setItem("token", res.data.token);
+                console.log(res.data.user);
 
-        try {
-            const res = await api.post("/auth/login", data);
-            localStorage.setItem("token", res.data.token);
-            console.log("Connexion réussie !");
-            console.log(res.data);
-            enqueueSnackbar("Connexion réussie", { variant: "success" });
-            navigate("/");
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Erreur serveur");
-        }
+                setUser(res.data.user as UserType);
+                setIsConnected(true);
+                enqueueSnackbar("Connexion réussie", { variant: "success" });
+                navigate("/");
+            })
+            .catch((err) => {
+                setError("Identifiants incorrects");
+                enqueueSnackbar("Identifiants incorrect", { variant: "error" });
+                console.log(err.message);
+            });
     };
 
     return (

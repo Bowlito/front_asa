@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import Login from "../pages/Login";
 import Users from "../pages/Users";
 import Register from "../pages/Register";
+import AdherentPage from "../pages/AdherentPage";
 
 export default function AppRoutes(){
     return(
@@ -15,6 +16,7 @@ export default function AppRoutes(){
             <Route path="/login" element={<Login/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/users" element={<Users/>}/>
+            <Route path="/adherents" element={<AdherentPage/>}/>
 
             {/* Cette Route doit tout le temps être en fin de bloc */}
             <Route path="*" element={<Navigate to="/" replace/>}/>

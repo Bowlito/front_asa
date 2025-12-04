@@ -20,16 +20,29 @@ export default function Layout({ children }: LayoutProps) {
         setMobileOpen(!mobileOpen);
     };
 
-
     return (
-        <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+                overflow: "hidden",
+                maxWidth: "100vw",
+            }}
+        >
             <CssBaseline />
 
             {/* Header */}
             <Header onMenuClick={handleDrawerToggle} />
 
             {/* Body: Sidebar + Main content */}
-            <Box sx={{ display: "flex", flex: 1, mt: "64px" /* hauteur header */ }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    flex: 1,
+                    mt: "64px" /* hauteur header */,
+                }}
+            >
                 {/* Sidebar temporaire sur toutes les tailles */}
                 <Drawer
                     variant="temporary"
@@ -52,17 +65,15 @@ export default function Layout({ children }: LayoutProps) {
                     component="main"
                     sx={{
                         flex: 1,
-                        width: "100%",           // full width
+                        width: "100%", // full width
                         p: 3,
                         display: "flex",
                         flexDirection: "column",
-                        alignItems: "stretch",   // étale le contenu horizontalement
+                        alignItems: "stretch", // étale le contenu horizontalement
                         justifyContent: "flex-start",
                     }}
                 >
-                    <PageContent>
-                        {children}
-                    </PageContent>
+                    <PageContent>{children}</PageContent>
                 </Box>
             </Box>
 

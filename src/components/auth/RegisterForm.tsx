@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 import { useState } from "react";
-import FormInput from "../form/FormInput";
-import FormButton from "../form/FormButton";
+import FormInput from "../formComponents/FormInput.tsx";
+import FormButton from "../formComponents/FormButton.tsx";
 import api from "../../api/api.ts";
 import { useSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
 
 interface UserRegister {
     firstname: string;
@@ -21,7 +22,7 @@ export default function RegisterForm() {
         reset,
     } = useForm<UserRegister>();
     const { enqueueSnackbar } = useSnackbar();
-
+    const navigate = useNavigate();
     const [newUser, setNewUser] = useState({});
 
     const onRegister = (data: UserRegister) => {
@@ -32,6 +33,7 @@ export default function RegisterForm() {
                     enqueueSnackbar("Utilisateur créé avec succès !", {
                         variant: "success",
                     }),
+                    navigate("/login"),
                     reset());
             })
             .catch((error) => console.log(error.message));

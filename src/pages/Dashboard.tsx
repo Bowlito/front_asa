@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import AdherentsForm from "../components/adherents/AdherentsForm.tsx";
 
 
 export default function Dashboard() {
@@ -6,7 +7,7 @@ export default function Dashboard() {
         <>
             <Typography variant="h4">Dashboard</Typography>
             <Typography variant="body1">
-                Contenu du dashboard à implémenter.
+                
             </Typography>
         </>
     );

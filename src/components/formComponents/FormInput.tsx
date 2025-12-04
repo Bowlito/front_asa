@@ -21,7 +21,8 @@ export default function FormInput({
         label={label}
         type={type}
         fullWidth
-        margin="normal"
+        margin="dense"
+        size="small"
         {...register(name,{required: true})}
         error={!!errors[name]}
         helperText={errors[name] ? "Ce champ est requis" : ""}
